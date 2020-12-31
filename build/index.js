@@ -271,6 +271,172 @@ registerBlockType('ga/hero', {
 
 /***/ }),
 
+/***/ "./src/imagenTexto/index.js":
+/*!**********************************!*\
+  !*** ./src/imagenTexto/index.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ga-logo.svg */ "./src/ga-logo.svg");
+
+var registerBlockType = wp.blocks.registerBlockType;
+var _wp$editor = wp.editor,
+    RichText = _wp$editor.RichText,
+    MediaUpload = _wp$editor.MediaUpload,
+    URLInputButton = _wp$editor.URLInputButton,
+    BlockControls = _wp$editor.BlockControls,
+    AlignmentToolbar = _wp$editor.AlignmentToolbar;
+var _wp$components = wp.components,
+    Button = _wp$components.Button,
+    IconButton = _wp$components.IconButton;
+/** Import the logo */
+
+
+registerBlockType('ga/imagentexto', {
+  title: 'GA imagen con texto',
+  icon: {
+    src: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+  },
+  category: 'gourmet-artist',
+  attributes: {
+    appTitulo: {
+      type: 'string',
+      source: 'html',
+      selector: '.imagen-texto-block .contenido h1'
+    },
+    appTexto: {
+      type: 'string',
+      source: 'html',
+      selector: '.imagen-texto-block .contenido p'
+    },
+    appImagen: {
+      type: 'string',
+      source: 'html',
+      selector: '.imagen-texto-block img',
+      default: _ga_logo_svg__WEBPACK_IMPORTED_MODULE_1__["ReactComponent"]
+    },
+    urlApp: {
+      type: 'string',
+      source: 'attribute',
+      attribute: 'href'
+    }
+  },
+  supports: {
+    align: ['wide', 'full']
+  },
+  styles: [{
+    name: 'default',
+    label: 'Azul (default)',
+    isDefault: true
+  }, {
+    name: 'verde',
+    label: 'verde'
+  }, {
+    name: 'red',
+    label: 'red'
+  }],
+  edit: function edit(props) {
+    var _props$attributes = props.attributes,
+        appTitulo = _props$attributes.appTitulo,
+        appTexto = _props$attributes.appTexto,
+        appImagen = _props$attributes.appImagen,
+        urlApp = _props$attributes.urlApp,
+        setAttributes = props.setAttributes;
+
+    var onChangeTitulo = function onChangeTitulo(nuevoTitulo) {
+      setAttributes({
+        appTitulo: nuevoTitulo
+      });
+    };
+
+    var onChangeTexto = function onChangeTexto(nuevoTexto) {
+      setAttributes({
+        appTexto: nuevoTexto
+      });
+    };
+
+    var onSeleccionarImagen = function onSeleccionarImagen(imagen) {
+      setAttributes({
+        appImagen: imagen.sizes.medium.url
+      });
+    };
+
+    var onChangeURL = function onChangeURL(nuevaURL) {
+      setAttributes({
+        urlApp: nuevaURL
+      });
+    };
+
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen-texto-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenedor"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenido"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      placeholder: "agregar titulo",
+      value: appTitulo,
+      onChange: onChangeTitulo
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText, {
+      placeholder: "agregar texto",
+      value: appTexto,
+      onChange: onChangeTexto
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: urlApp,
+      className: "boton"
+    }, "Descargar"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(URLInputButton, {
+      url: urlApp,
+      onChange: onChangeURL
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: appImagen
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(MediaUpload, {
+      onSelect: onSeleccionarImagen,
+      type: "image",
+      value: appImagen,
+      render: function render(_ref) {
+        var open = _ref.open;
+        return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(Button, {
+          onClick: open
+        }, "subir imagen");
+      }
+    }))));
+  },
+  save: function save(props) {
+    var _props$attributes2 = props.attributes,
+        appTitulo = _props$attributes2.appTitulo,
+        appTexto = _props$attributes2.appTexto,
+        appImagen = _props$attributes2.appImagen,
+        urlApp = _props$attributes2.urlApp;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen-texto-block"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenedor"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "contenido"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h1", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: appTitulo
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(RichText.Content, {
+      value: appTexto
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("a", {
+      href: urlApp,
+      className: "boton"
+    }, "Descargar")), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "imagen"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+      src: appImagen
+    }))));
+  }
+});
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -282,6 +448,8 @@ registerBlockType('ga/hero', {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _testimonial__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./testimonial */ "./src/testimonial/index.js");
 /* harmony import */ var _hero__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hero */ "./src/hero/index.js");
+/* harmony import */ var _imagenTexto__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./imagenTexto */ "./src/imagenTexto/index.js");
+
 
 
 

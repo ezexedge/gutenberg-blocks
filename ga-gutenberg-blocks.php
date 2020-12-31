@@ -53,7 +53,7 @@
      $blocks = array(
         'ga/testimonial',
         'ga/hero', 
-        //'ga/imagetext'
+        'ga/imagentexto'
     );
 
     // Add the blocks and register the Stylesheets
