@@ -1,6 +1,6 @@
 const { registerBlockType } = wp.blocks;
-const { RichText, MediaUpload } = wp.editor
-const {Button} = wp.components
+const { RichText, MediaUpload,InspectorControls,ColorPalette } = wp.editor
+const {Button,PanelBody} = wp.components
 /** Import the logo */
 import { ReactComponent as Logo } from '../ga-logo.svg';
 
@@ -25,12 +25,15 @@ registerBlockType('ga/testimonial', {
             attribute: 'src',
             selector: '.testimonial-info img',
             default: Logo
+        },
+        colorTestimonial: {
+            type: 'string'
         }
     },
     edit: props => {
         console.log(props)
 
-        const {attributes: {textoTestimonial ,nombreTestimonial, imagenTestimonial},setAttributes} = props
+        const {attributes: {textoTestimonial ,nombreTestimonial, imagenTestimonial,colorTestimonial},setAttributes} = props
 
 
         const onChangeNombreTestimonial = nuevoTestimonial => {
@@ -49,12 +52,33 @@ registerBlockType('ga/testimonial', {
             setAttributes({imagenTestimonial : imagen.sizes.medium.url})
 
 
+        }
 
-
+        const onChangeColorTestimonial = nuevoColor => {
+              setAttributes({ colorTestimonial: nuevoColor })
         }
 
         return(
-            <div className="testimonial-block">
+            <>
+
+            <InspectorControls>
+                <PanelBody
+                title={"elige tus colores"}
+                >
+                    <div className="components-base-control">
+                        <div className="components-base-control__field">
+                            <label className="components-base-control__label">
+                                Color de texto y linea
+                            </label>
+                            <ColorPalette
+                                onChange={onChangeColorTestimonial}
+                            />
+                        </div>
+
+                    </div>
+                </PanelBody>
+            </InspectorControls>
+            <div className="testimonial-block" style={{borderColor: colorTestimonial}}>
             <blockquote>
                 <RichText
                 placeholder="agrega un texto en testimonial"
@@ -83,30 +107,34 @@ registerBlockType('ga/testimonial', {
                         placeholder="Agregar nombre de testimonial"
                         onChange={onChangeNombreTestimonial}
                         value={nombreTestimonial}
+                        style={{color: colorTestimonial}}
 
                     />
                 </p>
             </div>
         </div>
+        </>
         )
     },
     save: props => {
    
-        const {attributes: {textoTestimonial,nombreTestimonial,imagenTestimonial }} = props
+        const {attributes: {textoTestimonial,nombreTestimonial,imagenTestimonial ,colorTestimonial}} = props
 
         
         return(
-            <div className="testimonial-block">
+            <div className="testimonial-block" style={{borderColor: colorTestimonial}}>
             <blockquote>
                 <RichText.Content value={textoTestimonial}/>
             </blockquote>
 
             <div className="testimonial-info">
                 <img src={imagenTestimonial}/>
-                <p>
+
+                <p style={{color:colorTestimonial}}>
                     <RichText.Content
                     
                     value={nombreTestimonial}
+                    style={{color: colorTestimonial}}
 
                     />
                 </p>
