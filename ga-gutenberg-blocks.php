@@ -64,6 +64,91 @@
             'style' => 'ga-front-end-styles', // front end css
         ));
     }
+
+    register_block_type( 'ga/dinamico', array(
+        'editor_script' => 'ga-editor-script',
+        'editor_style' => 'ga-editor-style', // backend CSS
+        'style' => 'ga-front-end-styles', // front end css
+        'render_callback' => 'ga_ultimas_recetas_gutenberg'
+    ));
+  }
+
+
+
+  function ga_ultimas_recetas_gutenberg(){
+       
+    global $post;
+
+    // Build a Query
+    $recipes = wp_get_recent_posts(array(
+        'post_type' => 'recetas',
+        'numberposts' => 3, 
+        'post_status' => 'publish'
+    ));
+
+    // Check if any post are returned
+    if( count($recipes) === 0) {
+        return "There're no recipes";
+    }
+
+    // Response that is going to be rendered
+    $body = '';
+    $body .= '<h1 class="latest-recipes-heading">Latest Recipes</h1>';
+    $body .= '<ul class="latest-recipes container">';
+
+    foreach($recipes as $recipe) {
+        // Get the post object
+        $post = get_post($recipe['ID']);
+        setup_postdata($post);
+
+        // Build the template
+        $body .= sprintf(
+            '<li>   
+                %1$s
+                <div class="content">
+                    <h2>%2$s</h2>
+                    <p>%3$s</p>
+                    <a href="%4$s" class="button">Read More</a>
+                </div>
+            </li>', 
+            get_the_post_thumbnail($post), 
+            esc_html(get_the_title($post)),
+            esc_html( wp_trim_words(get_the_content($post), 30 ) ),
+            esc_url( get_the_permalink($post) )
+        );
+        wp_reset_postdata();
+    } // endforeach
+    $body .= '</ul>';
+
+    return $body;
+ }
+
+  /*imagen destacada de rest api*/
+  add_action('rest_api_init','ga_imagenes_rest_init');
+  function ga_imagenes_rest_init(){
+      register_rest_field(
+          array('recetas'),
+          'imagen_destacada',
+          array(
+              'get_callback' => 'ga_obtener_imagen_destacada',
+                'update_callback' => null,
+                'schema' => null
+              )
+          );
+
+  }
+
+
+
+  function ga_obtener_imagen_destacada($object,$field_name,$request){
+
+        if($object['featured_media']){
+            $imagen = wp_get_attachment_image_src($object['featured_media'],'medium');
+            return $imagen[0];
+        }
+
+        return false;
+
   }
 
 
@@ -80,6 +165,8 @@
          )
      );
   }
+
+
 
 
 
